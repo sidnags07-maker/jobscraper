@@ -1,0 +1,64 @@
+# ---- Which sites to pull from ------------------------------------------------
+# Options: linkedin (Playwright browser), indeed (Playwright; usually blocked).
+sources:
+  - linkedin
+
+# ---- What you're looking for -------------------------------------------------
+# Keywords are OR'd into the search. Titles are matched again locally so that
+# noise (e.g. "analyst relations") can be filtered out.
+# Tuned for an early-career CS student (React/TypeScript/Next.js/Python, LLM
+# API integration) targeting startups.
+keywords:
+  - software engineer intern
+  - frontend developer
+  - full stack developer
+  - web developer
+  - junior software engineer
+  - react developer
+  - software developer intern
+  - junior developer
+
+# Local title filter: a job is kept only if its title contains one of these
+# words (case-insensitive). Keeps results on-target. Leave empty to disable.
+title_must_include:
+  - developer
+  - engineer
+  - software
+  - frontend
+  - front end
+  - front-end
+  - full stack
+  - full-stack
+  - web
+  - programmer
+
+location: "United States"
+
+remote_only: true          # LinkedIn f_WT=2
+part_time_only: false      # tech roles are rarely part-time; include FT/internships
+strict_part_time: false    # don't drop full-time (would empty the tech results)
+strict_remote: true        # drop postings that aren't actually remote (enforced locally)
+posted_within_days: 30     # only postings from the last N days (omit = any time)
+# NOTE: LinkedIn's public search can't hard-filter by company size, so "small
+# startup" is targeted via early-career keywords, not an exact filter.
+
+# ---- Pay filtering -----------------------------------------------------------
+# Many postings don't list pay. `keep_if_no_salary` decides what to do with
+# those: true = keep them (you check manually), false = drop them.
+# NOTE: floor set to 16, not 20 — true ~$20 part-time remote ENTRY roles are
+# scarce, and entry-level data work commonly lists $16-20. This keeps the
+# "around $20" band instead of nuking everything just under it.
+min_hourly_usd: 16
+keep_if_no_salary: true
+
+# ---- Politeness / scraping behavior -----------------------------------------
+max_jobs: 25               # stop after collecting this many DISTINCT jobs (0 = no cap)
+max_pages: 15              # LinkedIn returns 25 cards/page; dig deeper to find variety
+dedupe: true              # collapse the same role reposted across cities
+max_per_company: 3        # at most N jobs from any single company (0 = no cap)
+delay_seconds: [1.5, 3.0]  # random sleep range between requests
+fetch_descriptions: true   # open each job page to look for salary (slower)
+headless: true             # set false to watch the browser drive itself
+
+# ---- Output ------------------------------------------------------------------
+output_csv: "jobs.csv"
