@@ -1,4 +1,6 @@
-# Remote Part-Time Analyst Job Scraper
+# RemoteRadar
+
+*Remote Part-Time Analyst Job Scraper*
 
 A Playwright-driven job scraper that pulls **remote, part-time, analyst-type**
 roles and filters them by an **hourly pay threshold**, then writes results to CSV.
